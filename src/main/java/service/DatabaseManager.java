@@ -1,5 +1,7 @@
 package service;
 
+import GlobalVariables.EnvironmentVariable;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,7 +9,7 @@ import java.sql.SQLException;
 import static service.SQLiteConnection.connect;
 
 public class DatabaseManager {
-    private static final String DB_URL = "jdbc:sqlite:src/main/resources/bdd_SQLlite.db";
+    private static final String DB_URL = EnvironmentVariable.getDatabaseUrl();
 
     public static void createDevelopersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS developers (\n"

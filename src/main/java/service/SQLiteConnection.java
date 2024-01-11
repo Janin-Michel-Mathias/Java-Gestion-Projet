@@ -1,12 +1,14 @@
 package service;
 
+import GlobalVariables.EnvironmentVariable;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLiteConnection {
     public static Connection connect() {
-        String url = "jdbc:sqlite:src/main/resources/bdd_SQLlite.db";
+        String url = EnvironmentVariable.getDatabaseUrl();
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
