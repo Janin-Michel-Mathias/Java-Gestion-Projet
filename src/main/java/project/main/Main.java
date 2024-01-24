@@ -13,6 +13,7 @@ public class Main {
         DatabaseManager.createDevelopersTable();
         DatabaseManager.createSkillsTable();
         DatabaseManager.createDeveloper_skillsTable();
+        DatabaseManager.createlevel_skillsTable();
 
 
         Javalin app = Javalin.create().start(8343);
