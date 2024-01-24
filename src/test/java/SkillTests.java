@@ -1,16 +1,32 @@
 import modeles.Skill;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
-public class Tests {
+public class SkillTests {
     String skillName = "Node";
-    String skillLevel = "Expert";
-    @BeforeEach
 
-    @Test
-    public void shouldCreateASkill() {
-        assert(s.getSkillName()).equals(skillName);
-        assert(s.getLevel()).equals(skillLevel);
+    Skill skill;
+
+    @BeforeEach
+    public void createSkill() {
+        skill = new Skill(skillName);
     }
 
-    public
+    @Test
+    public void shouldGetName() {
+        assert(skill.getSkillName().equals(skillName));
+    }
+
+    @Test
+    public void shouldSetName() {
+        String newName = "Express";
+        skill.setSkillName(newName);
+        assert(skill.getSkillName().equals(newName));
+    }
+
+    @Test
+    public void shouldNotSetNameEmpty() {
+        skill.setSkillName("");
+        assert(skill.getSkillName().equals(skillName));
+    }
 }
