@@ -7,7 +7,6 @@ import modeles.Skill;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static controller.SkillsController.SKILLS_TABLE;
 import static controller.SkillsController.mapResultSetToSkill;
@@ -77,7 +76,7 @@ public class DevelopersController {
     }
 
     // Méthode pour mettre à jour un développeur par son ID dans la base de données
-    public static Developer updateDeveloper(int developerId, Developer updatedDeveloper) {
+    public static void updateDeveloper(int developerId, Developer updatedDeveloper) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + DEVELOPERS_TABLE + " SET name = ?, email = ? WHERE id = ?")) {
 
@@ -89,12 +88,10 @@ public class DevelopersController {
             if (affectedRows > 0) {
                 // Mise à jour des compétences du développeur
                 updateDeveloperSkills(connection, developerId, updatedDeveloper.getSkills());
-                return updatedDeveloper;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     // Méthode pour supprimer un développeur par son ID de la base de données

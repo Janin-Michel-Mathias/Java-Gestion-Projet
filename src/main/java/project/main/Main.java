@@ -1,4 +1,4 @@
-package org.example;
+package project.main;
 
 import io.javalin.Javalin;
 import service.SQLiteConnection;

@@ -10,7 +10,6 @@ import java.util.List;
 
 public class DevelopersApiCRUD {
 
-    // Méthode principale pour configurer les endpoints de l'API
     public static void setupEndpoints(Javalin app) {
         // Endpoint pour récupérer tous les développeurs
         app.get("/developers", getAllDevelopers);
