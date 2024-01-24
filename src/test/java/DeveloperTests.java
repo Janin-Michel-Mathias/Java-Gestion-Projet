@@ -1,6 +1,6 @@
 import modeles.Developer;
 import modeles.Skill;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ public class DeveloperTests {
     String email = "example@example.com";
     List<Skill> skills = new ArrayList<>();
 
-    @Before
+    @BeforeAll
     public void setSkills() {
         skills.add(new Skill("skill1"));
         skills.add(new Skill("skill2"));
