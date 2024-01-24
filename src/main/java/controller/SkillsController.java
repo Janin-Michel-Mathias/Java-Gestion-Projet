@@ -49,10 +49,9 @@ public class SkillsController {
     // Méthode pour créer une nouvelle compétence dans la base de données
     public static Skill createSkill(Skill newSkill) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + SKILLS_TABLE + " (name, level) VALUES (?, ?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + SKILLS_TABLE + " (skill_name, level) VALUES (?, ?)")) {
 
             preparedStatement.setString(1, newSkill.getSkillName());
-            preparedStatement.setString(2, newSkill.getLevel());
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
@@ -67,11 +66,11 @@ public class SkillsController {
     // Méthode pour mettre à jour une compétence par son ID dans la base de données
     public static Skill updateSkill(int skillId, Skill updatedSkill) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + SKILLS_TABLE + " SET name = ?, level = ? WHERE id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + SKILLS_TABLE + " SET skill_name = ?, WHERE id = ?")) {
 
             preparedStatement.setString(1, updatedSkill.getSkillName());
-            preparedStatement.setString(2, updatedSkill.getLevel());
-            preparedStatement.setInt(3, skillId);
+
+            preparedStatement.setInt(2, skillId);
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
@@ -99,8 +98,7 @@ public class SkillsController {
     static Skill mapResultSetToSkill(ResultSet resultSet) throws SQLException {
         Skill skill = new Skill();
         skill.setId(resultSet.getInt("id"));
-        skill.setSkillName(resultSet.getString("name"));
-        skill.setLevel(resultSet.getString("level"));
+        skill.setSkillName(resultSet.getString("skill_name"));
         return skill;
     }
 }

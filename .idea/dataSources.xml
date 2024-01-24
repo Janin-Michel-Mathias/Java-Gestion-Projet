@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="bdd_SQLlite" uuid="c573ee42-332c-4d3e-96cc-47b25def6cd2">
+    <data-source source="LOCAL" name="bdd_SQLlite [2]" uuid="2da59346-b65f-40fe-875f-05a1080232a5">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/main/resources/BDD/bdd_SQLlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:D:\ESGI\ESGI-Cours-3-annee\Java\Java-Gestion-Projet\src\main\resources\bdd_SQLlite.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
