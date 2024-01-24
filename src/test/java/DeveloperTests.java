@@ -5,15 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DeveloperTests {
     String name = "nom";
     String email = "example@example.com";
-    List<Skill> skills = new ArrayList<>();
+    static List<Skill> skills = new ArrayList<>();
 
     @BeforeAll
-    public void setSkills() {
+    public static void setSkills() {
         skills.add(new Skill("skill1"));
         skills.add(new Skill("skill2"));
         skills.add(new Skill("skill3"));
@@ -89,5 +90,14 @@ public class DeveloperTests {
     public void shouldNotSetEmailEmpty() {
         dev.setEmail("");
         assert(dev.getEmail().equals(email));
+    }
+
+    @Test
+    public void shouldSetSkills() {
+        List<Skill> newSkills = new ArrayList<Skill>();
+        newSkills.add(new Skill("skill3"));
+        newSkills.add(new Skill("skill4"));
+        dev.setSkills(newSkills);
+        assert(dev.getSkills().equals(newSkills));
     }
 }
