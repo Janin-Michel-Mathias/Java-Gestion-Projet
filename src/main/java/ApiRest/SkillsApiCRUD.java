@@ -16,16 +16,16 @@ public class SkillsApiCRUD {
         app.get("/skills", getAllSkills);
 
         // Endpoint pour récupérer une compétence par son ID
-        app.get("/skills/:id", getSkillById);
+        app.get("/skills/{id}", getSkillById);
 
         // Endpoint pour créer une nouvelle compétence
         app.post("/skills", createSkill);
 
         // Endpoint pour mettre à jour une compétence par son ID
-        app.put("/skills/:id", updateSkill);
+        app.put("/skills/{id}", updateSkill);
 
         // Endpoint pour supprimer une compétence par son ID
-        app.delete("/skills/:id", deleteSkill);
+        app.delete("/skills/{id}", deleteSkill);
     }
 
     // Handler pour récupérer toutes les compétences

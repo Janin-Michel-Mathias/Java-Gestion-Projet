@@ -15,16 +15,16 @@ public class DevelopersApiCRUD {
         app.get("/developers", getAllDevelopers);
 
         // Endpoint pour récupérer un développeur par son ID
-        app.get("/developers/:id", getDeveloperById);
+        app.get("/developers/{id}", getDeveloperById);
 
         // Endpoint pour créer un nouveau développeur
         app.post("/developers", createDeveloper);
 
         // Endpoint pour mettre à jour un développeur par son ID
-        app.put("/developers/:id", updateDeveloper);
+        app.put("/developers/{id}", updateDeveloper);
 
         // Endpoint pour supprimer un développeur par son ID
-        app.delete("/developers/:id", deleteDeveloper);
+        app.delete("/developers/{id}", deleteDeveloper);
     }
 
     // Handler pour récupérer tous les développeurs

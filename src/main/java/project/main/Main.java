@@ -3,6 +3,8 @@ package project.main;
 import io.javalin.Javalin;
 import service.SQLiteConnection;
 import ApiRest.ApiRest;
+import ApiRest.DevelopersApiCRUD;
+import ApiRest.SkillsApiCRUD;
 import service.DatabaseManager;
 
 public class Main {
@@ -13,8 +15,10 @@ public class Main {
         DatabaseManager.createDeveloper_skillsTable();
 
 
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create().start(8343);
         ApiRest apiRest = new ApiRest(app);
+        DevelopersApiCRUD.setupEndpoints(app);
+        SkillsApiCRUD.setupEndpoints(app);
         apiRest.setupEndpoints();
     }
 }
