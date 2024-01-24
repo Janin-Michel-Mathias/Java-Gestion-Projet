@@ -3,14 +3,11 @@ package service;
 import GlobalVariables.EnvironmentVariable;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import static service.SQLiteConnection.connect;
 
 public class DatabaseManager {
-    private static final String DB_URL = EnvironmentVariable.getDatabaseUrl();
-
     public static void createDevelopersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS developers (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
@@ -28,7 +25,7 @@ public class DatabaseManager {
     public static void createSkillsTable() {
         String sql = "CREATE TABLE IF NOT EXISTS skills (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-                + " skill_name TEXT NOT NULL,\n"
+                + " skill_name TEXT NOT NULL\n"
                 + ");";
 
         try (Connection conn = connect()) {
@@ -57,8 +54,8 @@ public class DatabaseManager {
     }
     public static void createlevel_skillsTable() {
         String sql = "CREATE TABLE IF NOT EXISTS level_skills (\n"
-                + " developer_id INTEGER,\n"
-                + " level TEXT NOT NULL,\n"
+                + " id INTEGER PRIMARY KEY,\n"
+                + " level TEXT NOT NULL\n"
                 + ");";
 
         try (Connection conn = connect()) {

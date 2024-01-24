@@ -8,7 +8,7 @@ public class Skill {
         // Constructeur par défaut requis pour la désérialisation JSON
     }
 
-    public Skill(String skillName, String level) {
+    public Skill(String skillName) {
         this.skillName = skillName;
     }
 
