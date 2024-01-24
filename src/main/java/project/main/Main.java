@@ -16,6 +16,7 @@ public class Main {
         DatabaseManager.createlevel_skillsTable();
 
         //test
+        //tesst
 
         Javalin app = Javalin.create().start(8343);
         ApiRest apiRest = new ApiRest(app);
