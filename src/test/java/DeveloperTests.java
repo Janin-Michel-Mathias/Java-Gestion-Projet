@@ -10,14 +10,14 @@ import java.util.List;
 public class DeveloperTests {
     String name = "nom";
     String email = "example@example.com";
-    List<Skill> skills = new ArrayList<Skill>();
+    List<Skill> skills = new ArrayList<>();
 
     @Before
     public void setSkills() {
-        skills.add(new Skill("skill1", "1"));
-        skills.add(new Skill("skill2", "2"));
-        skills.add(new Skill("skill3", "3"));
-        skills.add(new Skill("skill4", "4"));
+        skills.add(new Skill("skill1"));
+        skills.add(new Skill("skill2"));
+        skills.add(new Skill("skill3"));
+        skills.add(new Skill("skill4"));
     }
 
     Developer dev;
