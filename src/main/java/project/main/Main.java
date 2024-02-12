@@ -5,6 +5,7 @@ import service.SQLiteConnection;
 import ApiRest.ApiRest;
 import ApiRest.DevelopersApiCRUD;
 import ApiRest.SkillsApiCRUD;
+import ApiRest.LevelApiCRUD;
 import service.DatabaseManager;
 
 public class Main {
@@ -20,6 +21,7 @@ public class Main {
         ApiRest apiRest = new ApiRest(app);
         DevelopersApiCRUD.setupEndpoints(app);
         SkillsApiCRUD.setupEndpoints(app);
+        LevelApiCRUD.setupEndpoints(app);
         apiRest.setupEndpoints();
     }
 }

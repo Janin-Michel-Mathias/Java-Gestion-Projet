@@ -49,7 +49,7 @@ public class SkillsController {
     // Méthode pour créer une nouvelle compétence dans la base de données
     public static Skill createSkill(Skill newSkill) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + SKILLS_TABLE + " (skill_name, level) VALUES (?, ?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + SKILLS_TABLE + " (skill_name) VALUES (?)")) {
 
             preparedStatement.setString(1, newSkill.getSkillName());
 
@@ -64,18 +64,20 @@ public class SkillsController {
     }
 
     // Méthode pour mettre à jour une compétence par son ID dans la base de données
-    public static Skill updateSkill(int skillId, Skill updatedSkill) {
+    public static Skill updateSkill(Skill updatedSkill) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + SKILLS_TABLE + " SET skill_name = ?, WHERE id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + SKILLS_TABLE + " SET skill_name = ? WHERE id = ?")) {
 
             preparedStatement.setString(1, updatedSkill.getSkillName());
 
-            preparedStatement.setInt(2, skillId);
+            preparedStatement.setInt(2, updatedSkill.getId());
 
+            // Exécution de la requête SQL, si le update echoue, on retourne null
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 return updatedSkill;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

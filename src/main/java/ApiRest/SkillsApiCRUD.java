@@ -22,7 +22,7 @@ public class SkillsApiCRUD {
         app.post("/skills", createSkill);
 
         // Endpoint pour mettre à jour une compétence par son ID
-        app.put("/skills/{id}", updateSkill);
+        app.put("/skillupdate", updateSkill);
 
         // Endpoint pour supprimer une compétence par son ID
         app.delete("/skills/{id}", deleteSkill);
@@ -54,10 +54,9 @@ public class SkillsApiCRUD {
 
     // Handler pour mettre à jour une compétence par son ID
     private static final Handler updateSkill = ctx -> {
-        int skillId = Integer.parseInt(ctx.pathParam("id"));
         Skill updatedSkill = ctx.bodyAsClass(Skill.class);
         // Logique pour mettre à jour une compétence par son ID dans la base de données
-        SkillsController.updateSkill(skillId, updatedSkill);
+        SkillsController.updateSkill(updatedSkill);
         ctx.json(updatedSkill);
     };
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class LevelController {
 
     private static final String DATABASE_URL = EnvironmentVariable.getDatabaseUrl();
-    private static final String LEVEL_TABLE = "level";
+    private static final String LEVEL_TABLE = "level_skills";
 
     public static List<Level> getAllLevel(){
         List<Level> levels = new ArrayList<>();
