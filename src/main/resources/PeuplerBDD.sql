@@ -57,3 +57,5 @@ INSERT INTO 'developer_skills' (developer_id, skill_id, level_id) VALUES
 (4, 21, 1);
 
 UPDATE 'skills' SET skill_name = 'HTML' WHERE id = 1;
+
+//aaaa
