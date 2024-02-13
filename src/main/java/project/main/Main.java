@@ -8,13 +8,18 @@ import ApiRest.SkillsApiCRUD;
 import ApiRest.LevelApiCRUD;
 import service.DatabaseManager;
 
+import java.sql.Connection;
+
 public class Main {
     public static void main(String[] args) {
-        SQLiteConnection.connect();
-        DatabaseManager.createDevelopersTable();
-        DatabaseManager.createSkillsTable();
-        DatabaseManager.createDeveloper_skillsTable();
-        DatabaseManager.createlevel_skillsTable();
+        Connection conn = SQLiteConnection.connect();
+        DatabaseManager.createDevelopersTable(conn);
+        DatabaseManager.createSkillsTable(conn);
+        DatabaseManager.createDeveloper_skillsTable(conn);
+        DatabaseManager.createlevel_skillsTable(conn);
+        DatabaseManager.createPriorityTable(conn);
+        DatabaseManager.createProjectTable(conn);
+        DatabaseManager.createStackTable(conn);
 
 
         Javalin app = Javalin.create().start(8343);

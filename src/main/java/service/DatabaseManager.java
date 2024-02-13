@@ -8,34 +8,36 @@ import java.sql.SQLException;
 import static service.SQLiteConnection.connect;
 
 public class DatabaseManager {
-    public static void createDevelopersTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS developers (\n"
-                + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-                + " name TEXT NOT NULL,\n"
-                + " email TEXT NOT NULL UNIQUE\n"
-                + ");";
+    public static void createDevelopersTable(Connection conn) {
+        try {
+            String sql = "CREATE TABLE IF NOT EXISTS developers (\n"
+                    + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                    + " name TEXT NOT NULL,\n"
+                    + " email TEXT NOT NULL UNIQUE\n"
+                    + ");";
 
-        try (Connection conn = connect()) {
+
             conn.createStatement().execute(sql);
             System.out.println("Table 'developers' créée avec succès.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    public static void createSkillsTable() {
+    public static void createSkillsTable(Connection conn) {
+        try {
         String sql = "CREATE TABLE IF NOT EXISTS skills (\n"
                 + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                 + " skill_name TEXT NOT NULL\n"
                 + ");";
 
-        try (Connection conn = connect()) {
             conn.createStatement().execute(sql);
             System.out.println("Table 'skills' créée avec succès.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    public static void createDeveloper_skillsTable() {
+    public static void createDeveloper_skillsTable(Connection conn) {
+        try {
         String sql = "CREATE TABLE IF NOT EXISTS developer_skills (\n"
                 + " developer_id INTEGER,\n"
                 + " skill_id INTEGER,\n"
@@ -45,22 +47,69 @@ public class DatabaseManager {
                 + " FOREIGN KEY (skill_id) REFERENCES skills(id)\n"
                 + ");";
 
-        try (Connection conn = connect()) {
             conn.createStatement().execute(sql);
             System.out.println("Table 'developer_skills' créée avec succès.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    public static void createlevel_skillsTable() {
+    public static void createlevel_skillsTable(Connection conn) {
+        try {
         String sql = "CREATE TABLE IF NOT EXISTS level_skills (\n"
                 + " id INTEGER PRIMARY KEY,\n"
                 + " level TEXT NOT NULL\n"
                 + ");";
 
-        try (Connection conn = connect()) {
             conn.createStatement().execute(sql);
             System.out.println("Table 'level_skills' créée avec succès.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createPriorityTable(Connection conn){
+        try {
+        String sql = "CREATE TABLE IF NOT EXISTS priority (\n"
+                + " id INTEGER PRIMARY KEY,\n"
+                + " type TEXT NOT NULL\n"
+                + ");";
+
+            conn.createStatement().execute(sql);
+            System.out.println("Table 'priority' créée avec succès.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createProjectTable(Connection conn){
+        try {
+        String sql = "CREATE TABLE IF NOT EXISTS project (\n"
+                + " name TEXT PRIMARY KEY,\n"
+                + " id_priority INTEGER NOT NULL,\n"
+                + " description TEXT,\n"
+                + " date_start DATE,\n"
+                + " date_end DATE,\n"
+                + " FOREIGN KEY (id_priority) REFERENCES Priority(id)"
+                + ");";
+
+            conn.createStatement().execute(sql);
+            System.out.println("Table 'project' créée avec succès.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createStackTable(Connection conn){
+        try {
+        String sql = "CREATE TABLE IF NOT EXISTS stack (\n"
+                + " name_project TEXT PRIMARY KEY,\n"
+                + " id_skill INTEGER NOT NULL,\n"
+                + " numberDev INTEGER NOT NULL,\n"
+                + " FOREIGN KEY (id_skill) REFERENCES skills(id)"
+                + ");";
+
+            conn.createStatement().execute(sql);
+            System.out.println("Table 'stack' créée avec succès.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
