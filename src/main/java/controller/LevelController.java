@@ -49,7 +49,7 @@ public class LevelController {
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + LEVEL_TABLE + " (id, level) VALUES (?, ?)")) {
 
             preparedStatement.setInt(1, newLevel.getId());
-            preparedStatement.setString(2, newLevel.getLevelName());
+            preparedStatement.setString(2, newLevel.getLevel());
 
             int affectedRows = preparedStatement.executeUpdate();
 
@@ -65,13 +65,12 @@ public class LevelController {
     }
 
     // Méthode pour mettre à jour un level par son ID dans la base de données
-    public static Level updateLevel(int levelId, Level updatedLevel) {
+    public static Level updateLevel(Level updatedLevel) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + LEVEL_TABLE + " SET id = ?, level = ? WHERE id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + LEVEL_TABLE + " SET level = ? WHERE id = ?")) {
 
-            preparedStatement.setInt(1, updatedLevel.getId());
-            preparedStatement.setString(2, updatedLevel.getLevelName());
-            preparedStatement.setInt(3, levelId);
+            preparedStatement.setString(1, updatedLevel.getLevel());
+            preparedStatement.setInt(2, updatedLevel.getId());
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
@@ -100,7 +99,7 @@ public class LevelController {
     private static Level mapResultSetToLevel(ResultSet resultSet) throws SQLException {
         Level level = new Level();
         level.setId(resultSet.getInt("id"));
-        level.setLevelName(resultSet.getString("level"));
+        level.setLevel(resultSet.getString("level"));
         return level;
     }
 

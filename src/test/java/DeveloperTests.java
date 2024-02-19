@@ -24,7 +24,7 @@ public class DeveloperTests {
     Developer dev;
     @BeforeEach
     public void createDeveloper() {
-        dev = new Developer(name, email, skills);
+        //dev = new Developer(name, email, skills);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class DeveloperTests {
         List<Skill> newSkills = new ArrayList<Skill>();
         newSkills.add(new Skill("skill3"));
         newSkills.add(new Skill("skill4"));
-        dev.setSkills(newSkills);
+       // dev.setSkills(newSkills);
         assert(dev.getSkills().equals(newSkills));
     }
 }

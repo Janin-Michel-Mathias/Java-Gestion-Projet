@@ -45,10 +45,16 @@ public class DevelopersApiCRUD {
 
     // Handler pour créer un nouveau développeur
     private static final Handler createDeveloper = ctx -> {
-        Developer newDeveloper = ctx.bodyAsClass(Developer.class);
-        // Logique pour créer un nouveau développeur dans la base de données
-        DevelopersController.createDeveloper(newDeveloper);
-        ctx.status(201).json(newDeveloper);
+        try {
+            Developer newDeveloper = ctx.bodyAsClass(Developer.class);
+
+            DevelopersController.createDeveloper(newDeveloper);
+
+            ctx.status(201).json(newDeveloper);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(400).result("Invalid JSON format or other error");
+        }
     };
 
     // Handler pour mettre à jour un développeur par son ID

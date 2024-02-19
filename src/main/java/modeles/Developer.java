@@ -1,6 +1,7 @@
 package modeles;
 
-import modeles.Skill;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -8,20 +9,25 @@ public class Developer {
     private int id;
     private String name;
     private String email;
-    private List<Skill> skills; // Liste des compétences du développeur
+    private List<SkillExperience> skills;
 
-    public Developer() {
-        // Constructeur par défaut requis pour la désérialisation JSON
-    }
-
-    public Developer(String name, String email, List<Skill> skills) {
+    @JsonCreator
+    public Developer(
+            @JsonProperty("id") int id,
+            @JsonProperty("name") String name,
+            @JsonProperty("email") String email,
+            @JsonProperty("skills") List<SkillExperience> skills) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.skills = skills;
     }
 
-    public Developer(int developerId, Object o, Object o1, List<Skill> updatedSkills) {
+    public Developer() {
+
     }
+
+    // Getter and Setter methods
 
     public int getId() {
         return id;
@@ -47,11 +53,13 @@ public class Developer {
         this.email = email;
     }
 
-    public List<Skill> getSkills() {
+    public List<SkillExperience> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(List<SkillExperience> skills) {
         this.skills = skills;
     }
+
+    // Other methods
 }

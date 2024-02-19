@@ -21,7 +21,7 @@ public class LevelApiCRUD {
         app.post("/level", createLevel);
 
         // Endpoint pour mettre à jour un niveau par son ID
-        app.put("/level/{id}", updateLevel);
+        app.put("/levelupdate/", updateLevel);
 
         // Endpoint pour supprimer un niveau par son ID
         app.delete("/level/{id}", deleteLevel);
@@ -49,10 +49,9 @@ public class LevelApiCRUD {
     };
 
     private static final Handler updateLevel = ctx -> {
-        int levelId = Integer.parseInt(ctx.pathParam("id"));
         Level updatedLevel = ctx.bodyAsClass(Level.class);
         // Logique pour mettre à jour un niveau par son ID dans la base de données
-        LevelController.updateLevel(levelId, updatedLevel);
+        LevelController.updateLevel(updatedLevel);
         ctx.json(updatedLevel);
     };
 
