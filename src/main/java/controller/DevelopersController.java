@@ -26,6 +26,7 @@ public class DevelopersController {
 
             while (resultSet.next()) {
                 Developer developer = mapResultSetToDeveloper(resultSet);
+                developer.setSkills(getDeveloperSkills(developer.getId()));
                 developers.add(developer);
             }
         } catch (SQLException e) {
@@ -56,18 +57,18 @@ public class DevelopersController {
 
 
     // Méthode pour mettre à jour un développeur par son ID dans la base de données
-    public static void updateDeveloper(int developerId, Developer updatedDeveloper) {
+    public static void updateDeveloper(Developer updatedDeveloper) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + DEVELOPERS_TABLE + " SET name = ?, email = ? WHERE id = ?")) {
 
             preparedStatement.setString(1, updatedDeveloper.getName());
             preparedStatement.setString(2, updatedDeveloper.getEmail());
-            preparedStatement.setInt(3, developerId);
+            preparedStatement.setInt(3, updatedDeveloper.getId());
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 // Mise à jour des compétences du développeur
-               // updateDeveloperSkills(connection, developerId, updatedDeveloper.getSkills());
+               updateDeveloperSkills(connection, updatedDeveloper.getId(), updatedDeveloper.getSkills());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,6 +93,8 @@ public class DevelopersController {
         developer.setId(resultSet.getInt("id"));
         developer.setName(resultSet.getString("name"));
         developer.setEmail(resultSet.getString("email"));
+        developer.setStartDate(resultSet.getDate("start_date"));
+        developer.setEndDate(resultSet.getDate("end_date"));
         return developer;
     }
 
@@ -128,7 +131,7 @@ public class DevelopersController {
     public static Developer createDeveloper(Developer newDeveloper) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "INSERT INTO " + DEVELOPERS_TABLE + " (name, email) VALUES (?, ?)")) {
+                     "INSERT INTO " + DEVELOPERS_TABLE + " (name, email, start_date, end_date) VALUES (?, ?, datetime('now'), null)")) {
 
             preparedStatement.setString(1, newDeveloper.getName());
             preparedStatement.setString(2, newDeveloper.getEmail());
@@ -235,13 +238,33 @@ public class DevelopersController {
 
 
     // Méthode utilitaire pour mettre à jour les compétences d'un développeur dans la base de données
-    private static void updateDeveloperSkills(Connection connection, int developerId, List<Skill> updatedSkills) throws SQLException {
-        // Suppression des anciennes compétences du développeur
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + DEVELOPERS_SKILLS_TABLE + " WHERE developer_id = ?")) {
-            preparedStatement.setInt(1, developerId);
-            preparedStatement.executeUpdate();
+    private static void updateDeveloperSkills(Connection connection, int developerId, List<SkillExperience> updatedSkills) {
+        try {
+            // Suppression des anciennes compétences du développeur
+            try (PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM " + DEVELOPERS_SKILLS_TABLE + " WHERE developer_id = ?")) {
+                deleteStatement.setInt(1, developerId);
+                deleteStatement.executeUpdate();
+            }
+
+        try (PreparedStatement insertStatement = connection.prepareStatement(
+                "INSERT INTO " + DEVELOPERS_SKILLS_TABLE + " (developer_id, skill_id, level_id) VALUES (?, ?, ?)")) {
+
+            for (SkillExperience skillExperience : updatedSkills) {
+                // Get or insert the skill and retrieve its id
+                int skillId = getOrCreateSkillId(connection, skillExperience.getSkill());
+
+                // Map the experience to level_id
+                int levelId = mapExperienceToLevelId(skillExperience.getExperience());
+
+                insertStatement.setInt(1, developerId);
+                insertStatement.setInt(2, skillId);
+                insertStatement.setInt(3, levelId);
+                insertStatement.executeUpdate();
+            }
         }
-        // Insertion des nouvelles compétences du développeur
-        //insertDeveloperSkills(connection, new Developer(developerId, null, null, updatedSkills));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 }

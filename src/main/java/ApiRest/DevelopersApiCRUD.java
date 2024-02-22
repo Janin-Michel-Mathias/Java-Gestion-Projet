@@ -21,7 +21,7 @@ public class DevelopersApiCRUD {
         app.post("/developers", createDeveloper);
 
         // Endpoint pour mettre à jour un développeur par son ID
-        app.put("/developers/{id}", updateDeveloper);
+        app.put("/developers/", updateDeveloper);
 
         // Endpoint pour supprimer un développeur par son ID
         app.delete("/developers/{id}", deleteDeveloper);
@@ -59,10 +59,9 @@ public class DevelopersApiCRUD {
 
     // Handler pour mettre à jour un développeur par son ID
     private static final Handler updateDeveloper = ctx -> {
-        int developerId = Integer.parseInt(ctx.pathParam("id"));
         Developer updatedDeveloper = ctx.bodyAsClass(Developer.class);
         // Logique pour mettre à jour un développeur par son ID dans la base de données
-        DevelopersController.updateDeveloper(developerId, updatedDeveloper);
+        DevelopersController.updateDeveloper(updatedDeveloper);
         ctx.json(updatedDeveloper);
     };
 

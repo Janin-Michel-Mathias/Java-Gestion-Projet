@@ -13,7 +13,9 @@ public class DatabaseManager {
             String sql = "CREATE TABLE IF NOT EXISTS developers (\n"
                     + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
                     + " name TEXT NOT NULL,\n"
-                    + " email TEXT NOT NULL UNIQUE\n"
+                    + " email TEXT NOT NULL UNIQUE,\n"
+                    + " start_date DATE NOT NULL,\n"
+                    + " end_date DATE\n"
                     + ");";
 
 
@@ -84,7 +86,8 @@ public class DatabaseManager {
     public static void createProjectTable(Connection conn){
         try {
         String sql = "CREATE TABLE IF NOT EXISTS project (\n"
-                + " name TEXT PRIMARY KEY,\n"
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+                + " name TEXT,\n"
                 + " id_priority INTEGER NOT NULL,\n"
                 + " description TEXT,\n"
                 + " date_start DATE,\n"
@@ -94,6 +97,22 @@ public class DatabaseManager {
 
             conn.createStatement().execute(sql);
             System.out.println("Table 'project' créée avec succès.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createTeamTable(Connection conn){
+        try {
+        String sql = "CREATE TABLE IF NOT EXISTS team (\n"
+                + " id_developer INTEGER NOT NULL,\n"
+                + " id_project INTEGER NOT NULL,\n"
+                + " FOREIGN KEY (id_project) REFERENCES project(id),\n"
+                + " FOREIGN KEY (id_developer) REFERENCES developers(id)"
+                + ");";
+
+            conn.createStatement().execute(sql);
+            System.out.println("Table 'team' créée avec succès.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

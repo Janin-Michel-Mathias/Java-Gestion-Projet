@@ -20,6 +20,8 @@ public class Main {
         DatabaseManager.createPriorityTable(conn);
         DatabaseManager.createProjectTable(conn);
         DatabaseManager.createStackTable(conn);
+        DatabaseManager.createTeamTable(conn);
+
 
 
         Javalin app = Javalin.create().start(8343);

@@ -3,12 +3,15 @@ package modeles;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Date;
 import java.util.List;
 
 public class Developer {
     private int id;
     private String name;
     private String email;
+    private Date startDate;
+    private Date endDate;
     private List<SkillExperience> skills;
 
     @JsonCreator
@@ -16,10 +19,14 @@ public class Developer {
             @JsonProperty("id") int id,
             @JsonProperty("name") String name,
             @JsonProperty("email") String email,
+            @JsonProperty("startDate") Date startDate,
+            @JsonProperty("endDate") Date endDate,
             @JsonProperty("skills") List<SkillExperience> skills) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.skills = skills;
     }
 
@@ -51,6 +58,22 @@ public class Developer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public List<SkillExperience> getSkills() {
