@@ -44,6 +44,7 @@ public class DatabaseManager {
                 + " developer_id INTEGER,\n"
                 + " skill_id INTEGER,\n"
                 + " level_id INTEGER,\n"
+                + " experience INTEGER,\n"
                 + " PRIMARY KEY (developer_id, skill_id),\n"
                 + " FOREIGN KEY (developer_id) REFERENCES developers(id),\n"
                 + " FOREIGN KEY (skill_id) REFERENCES skills(id)\n"
