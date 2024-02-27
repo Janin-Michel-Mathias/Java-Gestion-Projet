@@ -53,11 +53,12 @@ public class PriorityController {
         return null;
     }
 
-    public static void insertPriority(Connection conn, Priority priority) {
-        try {
-            String sql = "INSERT INTO " + TABLE_NAME + " (type) VALUES (?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, priority.getType());
+    public static void createPriority(Priority priority) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL)){
+            String sql = "INSERT INTO " + TABLE_NAME + " (id, type) VALUES (?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, priority.getId());
+            preparedStatement.setString(2, priority.getType());
             preparedStatement.executeUpdate();
             System.out.println("Priority ajoutée avec succès.");
         } catch (SQLException e) {
@@ -65,10 +66,10 @@ public class PriorityController {
         }
     }
 
-    public static void updatePriority(Connection conn, Priority priority) {
-        try {
+    public static void updatePriority(Priority priority) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL)){
             String sql = "UPDATE " + TABLE_NAME + " SET type = ? WHERE id = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, priority.getType());
             preparedStatement.setInt(2, priority.getId());
             preparedStatement.executeUpdate();
@@ -78,10 +79,10 @@ public class PriorityController {
         }
     }
 
-    public static void deletePriority(Connection conn, int id) {
-        try {
+    public static void deletePriority(int id) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL)){
             String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             System.out.println("Priority supprimée avec succès.");
