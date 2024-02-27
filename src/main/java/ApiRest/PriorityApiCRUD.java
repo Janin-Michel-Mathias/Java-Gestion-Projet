@@ -63,6 +63,6 @@ public class PriorityApiCRUD {
     // Handler pour supprimer une compétence par son ID
     private static final Handler deletePriority = ctx -> {
         PriorityController.deletePriority(Integer.parseInt(ctx.pathParam("id")));
-        ctx.status(204);
+        ctx.status(204).result("Prioritee supprimee avec succes");
     };
 }

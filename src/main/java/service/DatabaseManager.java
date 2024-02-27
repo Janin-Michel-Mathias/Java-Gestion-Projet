@@ -122,7 +122,7 @@ public class DatabaseManager {
     public static void createStackTable(Connection conn){
         try {
         String sql = "CREATE TABLE IF NOT EXISTS stack (\n"
-                + " name_project TEXT PRIMARY KEY,\n"
+                + " name_project TEXT NOT NULL,\n"
                 + " id_skill INTEGER NOT NULL,\n"
                 + " numberDev INTEGER NOT NULL,\n"
                 + " FOREIGN KEY (id_skill) REFERENCES skills(id)"

@@ -53,6 +53,27 @@ public class PriorityController {
         return null;
     }
 
+    public static Priority getPriorityByType(String type) {
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE type = ?")) {
+
+            preparedStatement.setString(1, type);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Priority priority = new Priority();
+                priority.setId(resultSet.getInt("id"));
+                priority.setType(resultSet.getString("type"));
+                return priority;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
     public static void createPriority(Priority priority) {
         try (Connection connection = DriverManager.getConnection(DATABASE_URL)){
             String sql = "INSERT INTO " + TABLE_NAME + " (id, type) VALUES (?, ?)";

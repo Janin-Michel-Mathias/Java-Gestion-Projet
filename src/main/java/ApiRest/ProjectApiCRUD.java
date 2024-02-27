@@ -36,21 +36,33 @@ public class ProjectApiCRUD {
 
     // Handler pour récupérer un Project par son ID
     private static final Handler getProjectById = ctx -> {
-
+        int id = Integer.parseInt(ctx.pathParam("id"));
+        Project project = ProjectController.getProjectById(id);
+        if (project == null) {
+            throw new NotFoundResponse("Project non trouve");
+        } else {
+            ctx.json(project);
+        }
     };
 
     // Handler pour créer un nouveau Project
     private static final Handler createProject = ctx -> {
-
+        Project project = ctx.bodyAsClass(Project.class);
+        project = ProjectController.createProject(project);
+        ctx.status(201).json(project);
     };
 
     // Handler pour mettre à jour un Project par son ID
     private static final Handler updateProject = ctx -> {
-
+        Project project = ctx.bodyAsClass(Project.class);
+        project = ProjectController.updateProject(project);
+        ctx.status(204).json(project);
     };
 
     // Handler pour supprimer un Project par son ID
     private static final Handler deleteProject = ctx -> {
-
+        int id = Integer.parseInt(ctx.pathParam("id"));
+        ProjectController.deleteProject(id);
+        ctx.status(204).result("Project supprime avec succes");
     };
 }
