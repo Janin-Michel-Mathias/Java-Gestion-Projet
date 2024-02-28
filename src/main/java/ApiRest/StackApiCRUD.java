@@ -16,7 +16,7 @@ public class StackApiCRUD {
         app.get("/stack", getAllStacks);
 
         // Endpoint pour récupérer une compétence par son ID
-        app.get("/stack/{id}", getStackById);
+        app.post("/stack/name", getStackByNameProject);
 
         // Endpoint pour créer une nouvelle compétence
         app.post("/stack", createStack);
@@ -24,8 +24,11 @@ public class StackApiCRUD {
         // Endpoint pour mettre à jour une compétence par son ID
         app.put("/stackupdate", updateStack);
 
-        // Endpoint pour supprimer une compétence par son ID
-        app.delete("/stack/{id}", deleteStack);
+        // Endpoint pour supprimer une compétence de la Stack par son ID et le nom du projet
+        app.delete("/stack/skill", deleteSkillStack);
+
+        // Endpoint pour supprimer une Stack par son nom de projet
+        app.delete("/stack", deleteStack);
     }
 
     // Handler pour récupérer toutes les Stack
@@ -34,20 +37,49 @@ public class StackApiCRUD {
         ctx.json(stacks);
     };
 
-    // Handler pour récupérer une Stack par son ID
-    private static final Handler getStackById = ctx -> {
+    // Handler pour récupérer une Stack par son name_project
+    private static final Handler getStackByNameProject = ctx -> {
+        String nameProject = ctx.body();
+        SkillStacks stack = StackController.getStackByNameProject(nameProject);
+        if (stack == null) {
+            throw new NotFoundResponse("Stack non trouvee");
+        }
+        ctx.json(stack);
     };
 
     // Handler pour créer une nouvelle Stack
     private static final Handler createStack = ctx -> {
+        SkillStacks newStack = ctx.bodyAsClass(SkillStacks.class);
+        // Logique pour créer une nouvelle Stack dans la base de données
+        newStack = StackController.createStack(newStack);
+        assert newStack != null;
+        ctx.status(201).json(newStack);
     };
 
-    // Handler pour mettre à jour une Stack par son ID
+    // Handler pour mettre à jour une Stack par son nom et l'ID de la compétence
     private static final Handler updateStack = ctx -> {
+        SkillStacks updatedStack = ctx.bodyAsClass(SkillStacks.class);
+        // Logique pour mettre à jour une Stack par son ID dans la base de données
+        updatedStack = StackController.updateStack(updatedStack);
+        assert updatedStack != null;
+        ctx.json(updatedStack);
     };
 
-    // Handler pour supprimer une Stack par son ID
+    // Handler pour supprimer une compétence de la Stack par son ID et le nom du projet
+    private static final Handler deleteSkillStack = ctx -> {
+        int skillId = Integer.parseInt(ctx.body());
+        String nameProject = ctx.body();
+        // Logique pour supprimer une compétence de la Stack par son ID et le nom du projet de la base de données
+        StackController.deleteSkillStack(skillId, nameProject);
+        ctx.status(204).result("Competence " + skillId + " supprimee de la Stack " + nameProject);
+    };
+
+    // Handler pour supprimer une Stack par le nom du projet
     private static final Handler deleteStack = ctx -> {
+        String nameProject = ctx.body();
+        // Logique pour supprimer une Stack par le nom du projet de la base de données
+        StackController.deleteStack(nameProject);
+        ctx.status(204).result("Stack " + nameProject + " supprimee");
     };
 }
 

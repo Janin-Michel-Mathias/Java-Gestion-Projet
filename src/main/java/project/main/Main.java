@@ -8,6 +8,7 @@ import ApiRest.SkillsApiCRUD;
 import ApiRest.LevelApiCRUD;
 import ApiRest.PriorityApiCRUD;
 import ApiRest.ProjectApiCRUD;
+import ApiRest.StackApiCRUD;
 import service.DatabaseManager;
 
 import java.sql.Connection;
@@ -33,6 +34,7 @@ public class Main {
         LevelApiCRUD.setupEndpoints(app);
         PriorityApiCRUD.setupEndpoints(app);
         ProjectApiCRUD.setupEndpoints(app);
+        StackApiCRUD.setupEndpoints(app);
         apiRest.setupEndpoints();
     }
 }
