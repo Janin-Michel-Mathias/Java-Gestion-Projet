@@ -12,16 +12,16 @@ public class StackApiCRUD {
 
     // Méthode principale pour configurer les endpoints de l'API
     public static void setupEndpoints(Javalin app) {
-        // Endpoint pour récupérer toutes les compétences
+        // Endpoint pour récupérer toutes les stack
         app.get("/stack", getAllStacks);
 
-        // Endpoint pour récupérer une compétence par son ID
+        // Endpoint pour récupérer une stack par son nom de projet
         app.post("/stack/name", getStackByNameProject);
 
-        // Endpoint pour créer une nouvelle compétence
+        // Endpoint pour créer une nouvelle stack
         app.post("/stack", createStack);
 
-        // Endpoint pour mettre à jour une compétence par son ID
+        // Endpoint pour mettre à jour une stack par son ID
         app.put("/stackupdate", updateStack);
 
         // Endpoint pour supprimer une compétence de la Stack par son ID et le nom du projet
