@@ -22,12 +22,28 @@ public class GetFullProject {
 
         for (Project project : projects) {
             List<Team> teams = TeamController.getTeamByIdProject(project.getId());
-            SkillStacks skillStacks = StackController.getStackByNameProject(project.getName());
+            List<SkillStacks> skillStacks = StackController.getStackByNameProject(project.getName());
 
             FullProject fullProject = new FullProject(project, skillStacks, teams);
             fullprojectList.add(fullProject);
         }
 
         return fullprojectList;
+    }
+
+    public static FullProject getFullProjectById(int id) {
+        Project project = ProjectController.getProjectById(id);
+        List<Team> teams = TeamController.getTeamByIdProject(id);
+        List<SkillStacks> skillStacks = StackController.getStackByNameProject(project.getName());
+
+        return new FullProject(project, skillStacks, teams);
+    }
+
+    public static FullProject getFullProjectByName(String name) {
+        Project project = ProjectController.getProjectByName(name);
+        List<Team> teams = TeamController.getTeamByIdProject(project.getId());
+        List<SkillStacks> skillStacks = StackController.getStackByNameProject(project.getName());
+
+        return new FullProject(project, skillStacks, teams);
     }
 }

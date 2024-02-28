@@ -40,11 +40,8 @@ public class StackApiCRUD {
     // Handler pour récupérer une Stack par son name_project
     private static final Handler getStackByNameProject = ctx -> {
         String nameProject = ctx.body();
-        SkillStacks stack = StackController.getStackByNameProject(nameProject);
-        if (stack == null) {
-            throw new NotFoundResponse("Stack non trouvee");
-        }
-        ctx.json(stack);
+        List<SkillStacks> stacks = StackController.getStackByNameProject(nameProject);
+        ctx.json(stacks);
     };
 
     // Handler pour créer une nouvelle Stack

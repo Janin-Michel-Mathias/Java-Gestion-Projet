@@ -16,6 +16,11 @@ public class ServiceGetFullProjectApiCRUD {
         // Endpoint pour récupérer toutes les projects avec toutes les informations
         app.get("/fullprojects", getAllFullProjects);
 
+        // Endpoint pour récupérer un projet avec toutes les informations par son ID
+        app.get("/fullprojects/id", getFullProjectById);
+
+        // Endpoint pour récupérer un projet avec toutes les informations par son nom
+        app.get("/fullprojects/name", getFullProjectByName);
 
     }
 
@@ -23,6 +28,20 @@ public class ServiceGetFullProjectApiCRUD {
     private static Handler getAllFullProjects = ctx -> {
         List<FullProject> fullProjects = GetFullProject.getAllFullProjects();
         ctx.json(fullProjects);
+    };
+
+    // Handler pour récupérer un projet avec toutes les informations par son ID
+    private static Handler getFullProjectById = ctx -> {
+        int id = Integer.parseInt(ctx.body());
+        FullProject fullProject = GetFullProject.getFullProjectById(id);
+        ctx.json(fullProject);
+    };
+
+    // Handler pour récupérer un projet avec toutes les informations par son nom
+    private static Handler getFullProjectByName = ctx -> {
+        String name = ctx.body();
+        FullProject fullProject = GetFullProject.getFullProjectByName(name);
+        ctx.json(fullProject);
     };
 
 

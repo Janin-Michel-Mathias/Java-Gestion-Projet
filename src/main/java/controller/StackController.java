@@ -37,12 +37,13 @@ public class StackController {
         return stacks;
     }
 
-    public static SkillStacks getStackByNameProject(String nameProject) {
+    public static List<SkillStacks> getStackByNameProject(String nameProject) {
+        List<SkillStacks> stacks = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + STACKS_TABLE + " WHERE name_project = ?")) {
             stmt.setString(1, nameProject);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 SkillStacks stack = new SkillStacks();
                 stack.setProjectName(rs.getString("name_project"));
                 stack.setId(rs.getInt("id_skill"));
@@ -52,12 +53,12 @@ public class StackController {
                     stack.setSkillName(skill.getSkillName());
                 }
                 stack.setNumberOfDevelopers(rs.getInt("numberDev"));
-                return stack;
+                stacks.add(stack);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return null;
+        return stacks;
     }
 
     public static SkillStacks createStack(SkillStacks newStack) {
