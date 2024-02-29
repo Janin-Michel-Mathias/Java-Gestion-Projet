@@ -1,4 +1,4 @@
-package ApiRest;
+package ApiRest.Service;
 
 import io.javalin.Javalin;
 import io.javalin.http.Handler;

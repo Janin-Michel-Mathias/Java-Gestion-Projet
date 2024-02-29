@@ -44,13 +44,12 @@ public class TeamAllocationService {
                 List<Team> developerTeam = getTeamsForDeveloper(developer, allTeams);
                 for (Team team : developerTeam) {
                     Project project = ProjectController.getProjectById(team.getId_project());
-                    if (isTimeSlotWithinProjectDates(desiredTimeSlot, project)) {
-
+                    if (!isTimeSlotWithinProjectDates(desiredTimeSlot, project)) {
+                        availableDevelopers.add(developer);
                     }
                 }
             }
         }
-
         return availableDevelopers;
     }
 
@@ -69,6 +68,8 @@ public class TeamAllocationService {
         for (Team team : allTeams) {
             if (team.getId_developer() == developer.getId()) {
                 developerTeams.add(team);
+            }
+            return developerTeams;
         }
         return developerTeams;
     }
@@ -82,14 +83,20 @@ public class TeamAllocationService {
         Date desiredStartDate = desiredTimeSlot.getStartTime();
         Date desiredEndDate = desiredTimeSlot.getEndTime();
 
-        // Calculate the duration of the project
-        long projectDuration = projectEndDate.getTime() - projectStartDate.getTime();
+        // Check if the desired start date is between project start and end dates
+        boolean isStartDateWithinProject = desiredStartDate.after(projectStartDate) && desiredStartDate.before(projectEndDate);
 
-        // Calculate the duration of the desired time slot
-        long desiredDuration = desiredEndDate.getTime() - desiredStartDate.getTime();
+        // Check if the desired end date is between project start and end dates
+        boolean isEndDateWithinProject = desiredEndDate.after(projectStartDate) && desiredEndDate.before(projectEndDate);
 
-        // Check if the desired time slot duration is less than or equal to the project duration
-        return desiredDuration <= projectDuration;
+        // Check if the desired start date is the same as project start date or after
+        boolean isStartDateExactProject = desiredStartDate.equals(projectStartDate);
+
+        // Check if the desired end date is the same as project end date or before
+        boolean isEndDateExactProject = desiredEndDate.equals(projectEndDate);
+
+        // Return true if any of the conditions is true
+        return isStartDateWithinProject || isEndDateWithinProject || isStartDateExactProject || isEndDateExactProject;
     }
 
 

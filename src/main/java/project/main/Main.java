@@ -10,7 +10,7 @@ import ApiRest.PriorityApiCRUD;
 import ApiRest.ProjectApiCRUD;
 import ApiRest.StackApiCRUD;
 import ApiRest.TeamApiCRUD;
-import ApiRest.ServiceGetFullProjectApiCRUD;
+import ApiRest.Service.ServiceGetFullProjectApiCRUD;
 import service.DatabaseManager;
 
 import java.sql.Connection;
