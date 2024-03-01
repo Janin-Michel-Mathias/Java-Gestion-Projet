@@ -1,3 +1,3 @@
 https://hoppscotch.io/
 
-faire une table mission
+Vous trouverez le fichier hoppscotch.json dans le dossier Documentations à importer sur le site Hoppscotch pour tester les requêtes REST.
