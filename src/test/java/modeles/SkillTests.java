@@ -1,10 +1,11 @@
+package modeles;
+
 import modeles.Skill;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 public class SkillTests {
     String skillName = "Node";
-
     Skill skill;
 
     @BeforeEach

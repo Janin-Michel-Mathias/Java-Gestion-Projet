@@ -15,22 +15,21 @@ public class ProjectController {
 
     public static List<Project> getAllProjects() {
         List<Project> projects = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
-            String query = "SELECT * FROM " + TABLE_NAME;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        Project project = new Project();
-                        project.setId(resultSet.getInt("id"));
-                        project.setName(resultSet.getString("name"));
-                        project.setPriorityId(resultSet.getInt("id_priority"));
-                        project.setPriorityType(Objects.requireNonNull(PriorityController.getPriorityById(project.getPriorityId())).getType());
-                        project.setDescription(resultSet.getString("description"));
-                        project.setStartDate(resultSet.getDate("date_start"));
-                        project.setEndDate(resultSet.getDate("date_end"));
+        Connection connection = EnvironmentVariable.getConnection();
+        String query = "SELECT * FROM " + TABLE_NAME;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Project project = new Project();
+                    project.setId(resultSet.getInt("id"));
+                    project.setName(resultSet.getString("name"));
+                    project.setPriorityId(resultSet.getInt("id_priority"));
+                    project.setPriorityType(Objects.requireNonNull(PriorityController.getPriorityById(project.getPriorityId())).getType());
+                    project.setDescription(resultSet.getString("description"));
+                    project.setStartDate(resultSet.getDate("date_start"));
+                    project.setEndDate(resultSet.getDate("date_end"));
 
-                        projects.add(project);
-                    }
+                    projects.add(project);
                 }
             }
         } catch (SQLException e) {
@@ -41,7 +40,7 @@ public class ProjectController {
 
     public static Project getProjectById(int id) {
         Project project = null;
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
+        Connection connection = EnvironmentVariable.getConnection();
             String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setInt(1, id);
@@ -57,7 +56,6 @@ public class ProjectController {
                         project.setEndDate(resultSet.getDate("date_end"));
                     }
                 }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,7 +64,7 @@ public class ProjectController {
 
     public static Project getProjectByName(String name) {
         Project project = null;
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
+        Connection connection = EnvironmentVariable.getConnection();
             String query = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, name);
@@ -82,10 +80,9 @@ public class ProjectController {
                         project.setEndDate(resultSet.getDate("date_end"));
                     }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return project;
     }
 
@@ -132,16 +129,15 @@ public class ProjectController {
     }
 
     public static void deleteProject(int id) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)) {
+        Connection connection = EnvironmentVariable.getConnection();
             String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setInt(1, id);
 
                 preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }

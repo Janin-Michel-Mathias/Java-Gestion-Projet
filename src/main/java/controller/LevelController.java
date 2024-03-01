@@ -14,8 +14,8 @@ public class LevelController {
 
     public static List<Level> getAllLevel(){
         List<Level> levels = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             Statement statement = connection.createStatement();
+        Connection connection = EnvironmentVariable.getConnection();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM " + LEVEL_TABLE)) {
 
             while (resultSet.next()) {
@@ -29,8 +29,8 @@ public class LevelController {
     }
 
     public static Level getLevelById(int levelId) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + LEVEL_TABLE + " WHERE id = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + LEVEL_TABLE + " WHERE id = ?")) {
 
             preparedStatement.setInt(1, levelId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -45,8 +45,8 @@ public class LevelController {
     }
 
     public static Level createLevel(Level newLevel) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + LEVEL_TABLE + " (id, level) VALUES (?, ?)")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + LEVEL_TABLE + " (id, level) VALUES (?, ?)")) {
 
             preparedStatement.setInt(1, newLevel.getId());
             preparedStatement.setString(2, newLevel.getLevel());
@@ -66,8 +66,8 @@ public class LevelController {
 
     // Méthode pour mettre à jour un level par son ID dans la base de données
     public static Level updateLevel(Level updatedLevel) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + LEVEL_TABLE + " SET level = ? WHERE id = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + LEVEL_TABLE + " SET level = ? WHERE id = ?")) {
 
             preparedStatement.setString(1, updatedLevel.getLevel());
             preparedStatement.setInt(2, updatedLevel.getId());
@@ -86,8 +86,8 @@ public class LevelController {
 
     // Méthode pour supprimer un développeur par son ID de la base de données
     public static void deleteLevel(int levelId) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + LEVEL_TABLE + " WHERE id = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + LEVEL_TABLE + " WHERE id = ?")) {
 
             preparedStatement.setInt(1, levelId);
             preparedStatement.executeUpdate();

@@ -15,8 +15,8 @@ public class SkillsController {
     // Méthode pour récupérer toutes les compétences depuis la base de données
     public static List<Skill> getAllSkills() {
         List<Skill> skills = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             Statement statement = connection.createStatement();
+        Connection connection = EnvironmentVariable.getConnection();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM " + SKILLS_TABLE)) {
 
             while (resultSet.next()) {
@@ -31,8 +31,8 @@ public class SkillsController {
 
     // Méthode pour récupérer une compétence par son ID depuis la base de données
     public static Skill getSkillById(int skillId) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + SKILLS_TABLE + " WHERE id = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + SKILLS_TABLE + " WHERE id = ?")) {
 
             preparedStatement.setInt(1, skillId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -48,8 +48,8 @@ public class SkillsController {
 
     // Méthode pour créer une nouvelle compétence dans la base de données
     public static Skill createSkill(Skill newSkill) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + SKILLS_TABLE + " (skill_name) VALUES (?)")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + SKILLS_TABLE + " (skill_name) VALUES (?)")) {
 
             preparedStatement.setString(1, newSkill.getSkillName());
 
@@ -65,8 +65,8 @@ public class SkillsController {
 
     // Méthode pour mettre à jour une compétence par son ID dans la base de données
     public static Skill updateSkill(Skill updatedSkill) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + SKILLS_TABLE + " SET skill_name = ? WHERE id = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + SKILLS_TABLE + " SET skill_name = ? WHERE id = ?")) {
 
             preparedStatement.setString(1, updatedSkill.getSkillName());
 
@@ -86,8 +86,8 @@ public class SkillsController {
 
     // Méthode pour supprimer une compétence par son ID de la base de données
     public static void deleteSkill(int skillId) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + SKILLS_TABLE + " WHERE id = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM " + SKILLS_TABLE + " WHERE id = ?")) {
 
             preparedStatement.setInt(1, skillId);
             preparedStatement.executeUpdate();

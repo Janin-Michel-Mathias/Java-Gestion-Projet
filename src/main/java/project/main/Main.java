@@ -1,5 +1,6 @@
 package project.main;
 
+import GlobalVariables.EnvironmentVariable;
 import io.javalin.Javalin;
 import service.SQLiteConnection;
 import ApiRest.ApiRest;
@@ -14,6 +15,7 @@ import ApiRest.Service.ServiceGetFullProjectApiCRUD;
 import service.DatabaseManager;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,6 +28,12 @@ public class Main {
         DatabaseManager.createProjectTable(conn);
         DatabaseManager.createStackTable(conn);
         DatabaseManager.createTeamTable(conn);
+
+        try {
+            EnvironmentVariable.setConnection(DriverManager.getConnection(EnvironmentVariable.getDatabaseUrl()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 

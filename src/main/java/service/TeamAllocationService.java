@@ -98,6 +98,4 @@ public class TeamAllocationService {
         // Return true if any of the conditions is true
         return isStartDateWithinProject || isEndDateWithinProject || isStartDateExactProject || isEndDateExactProject;
     }
-
-
 }
