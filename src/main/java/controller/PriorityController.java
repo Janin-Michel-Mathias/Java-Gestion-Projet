@@ -15,9 +15,8 @@ public class PriorityController {
 
     public static List<Priority> getAllPriorities() {
         List<Priority> priorities = new ArrayList<>();
-
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             Statement statement = connection.createStatement();
+        Connection connection = EnvironmentVariable.getConnection();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME)) {
 
             while (resultSet.next()) {
@@ -33,8 +32,8 @@ public class PriorityController {
     }
 
     public static Priority getPriorityById(int id) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try(PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?")) {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -54,8 +53,8 @@ public class PriorityController {
     }
 
     public static Priority getPriorityByType(String type) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE type = ?")) {
+        Connection connection = EnvironmentVariable.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE type = ?")) {
 
             preparedStatement.setString(1, type);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -75,7 +74,8 @@ public class PriorityController {
     }
 
     public static void createPriority(Priority priority) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)){
+        Connection connection = EnvironmentVariable.getConnection();
+        try {
             String sql = "INSERT INTO " + TABLE_NAME + " (id, type) VALUES (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, priority.getId());
@@ -88,7 +88,8 @@ public class PriorityController {
     }
 
     public static void updatePriority(Priority priority) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)){
+        Connection connection = EnvironmentVariable.getConnection();
+        try {
             String sql = "UPDATE " + TABLE_NAME + " SET type = ? WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, priority.getType());
@@ -101,7 +102,8 @@ public class PriorityController {
     }
 
     public static void deletePriority(int id) {
-        try (Connection connection = DriverManager.getConnection(DATABASE_URL)){
+        Connection connection = EnvironmentVariable.getConnection();
+        try {
             String sql = "DELETE FROM " + TABLE_NAME + " WHERE id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);

@@ -15,8 +15,8 @@ public class TeamController {
 
     public static List<Team> getAllTeams() {
         List<Team> teams = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             Statement stmt = conn.createStatement();
+        Connection conn = EnvironmentVariable.getConnection();
+        try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT t.*, p.name AS project_name, d.name AS developer_name " +
                      "FROM " + STACKS_TABLE + " t " +
                      "JOIN project p ON t.id_project = p.id " +
@@ -38,8 +38,8 @@ public class TeamController {
 
     public static List<Team> getTeamByIdProject(int id) {
         List<Team> teams = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("SELECT t.*, p.name AS project_name, d.name AS developer_name " +
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT t.*, p.name AS project_name, d.name AS developer_name " +
                      "FROM " + STACKS_TABLE + " t " +
                      "JOIN project p ON t.id_project = p.id " +
                      "JOIN developers d ON t.id_developer = d.id " +
@@ -89,8 +89,8 @@ public class TeamController {
     }
 
     public static Team createTeam(Team newTeam) {
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + STACKS_TABLE + " (id_developer, id_project) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + STACKS_TABLE + " (id_developer, id_project) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, newTeam.getId_developer());
             stmt.setInt(2, newTeam.getId_project());
@@ -141,8 +141,8 @@ public class TeamController {
     }
 
     public static void deleteTeam(int id) {
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + STACKS_TABLE + " WHERE id_project = ?")) {
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + STACKS_TABLE + " WHERE id_project = ?")) {
 
             stmt.setInt(1, id);
             stmt.executeUpdate();

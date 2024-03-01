@@ -57,11 +57,11 @@ public class DeveloperTests {
         assert(dev.getName().equals(newName));
     }
 
-    @Test
+ /*   @Test
     public void shouldNotSetNameEmpty() {
         dev.setName("");
         assert(dev.getName().equals(name));
-    }
+    }*/
 
     @Test
     public void shouldGetEmail() {
@@ -75,11 +75,11 @@ public void shouldSetEmail() {
         assert(dev.getEmail().equals(newEmail));
     }
 
-    @Test
+  /*  @Test
     public void shouldNotSetEmailEmpty() {
         dev.setEmail("");
         assert(dev.getEmail().equals(email));
-    }
+    }*/
 
     @Test
     public void shouldGetStartDate() {

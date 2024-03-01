@@ -16,8 +16,8 @@ public class StackController {
 
     public static List<SkillStacks> getAllStacks() {
         List<SkillStacks> stacks = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             Statement stmt = conn.createStatement();
+        Connection conn = EnvironmentVariable.getConnection();
+        try (Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM " + STACKS_TABLE)) {
             while (rs.next()) {
                 SkillStacks stack = new SkillStacks();
@@ -39,8 +39,8 @@ public class StackController {
 
     public static List<SkillStacks> getStackByNameProject(String nameProject) {
         List<SkillStacks> stacks = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + STACKS_TABLE + " WHERE name_project = ?")) {
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM " + STACKS_TABLE + " WHERE name_project = ?")) {
             stmt.setString(1, nameProject);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -62,8 +62,8 @@ public class StackController {
     }
 
     public static SkillStacks createStack(SkillStacks newStack) {
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + STACKS_TABLE + " (name_project, id_skill, numberDev) VALUES (?, ?, ?)")) {
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO " + STACKS_TABLE + " (name_project, id_skill, numberDev) VALUES (?, ?, ?)")) {
             stmt.setString(1, newStack.getProjectName());
             stmt.setInt(2, newStack.getId());
             stmt.setInt(3, newStack.getNumberOfDevelopers());
@@ -78,8 +78,8 @@ public class StackController {
     }
 
     public static SkillStacks updateStack(SkillStacks updatedStack) {
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("UPDATE " + STACKS_TABLE + " SET name_project = ?, id_skill = ?, numberDev = ? WHERE id_skill = ? AND name_project = ?")) {
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("UPDATE " + STACKS_TABLE + " SET name_project = ?, id_skill = ?, numberDev = ? WHERE id_skill = ? AND name_project = ?")) {
             stmt.setString(1, updatedStack.getProjectName());
             stmt.setInt(2, updatedStack.getId());
             stmt.setInt(3, updatedStack.getNumberOfDevelopers());
@@ -96,8 +96,8 @@ public class StackController {
     }
 
     public static void deleteSkillStack(int skillId, String nameProject) {
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + STACKS_TABLE + " WHERE id_skill = ? AND name_project = ?")) {
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + STACKS_TABLE + " WHERE id_skill = ? AND name_project = ?")) {
             stmt.setInt(1, skillId);
             stmt.setString(2, nameProject);
             stmt.executeUpdate();
@@ -107,8 +107,8 @@ public class StackController {
     }
 
     public static void deleteStack(String nameProject) {
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + STACKS_TABLE + " WHERE name_project = ?")) {
+        Connection conn = EnvironmentVariable.getConnection();
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + STACKS_TABLE + " WHERE name_project = ?")) {
             stmt.setString(1, nameProject);
             stmt.executeUpdate();
         } catch (SQLException e) {
