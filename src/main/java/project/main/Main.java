@@ -13,6 +13,7 @@ import ApiRest.StackApiCRUD;
 import ApiRest.TeamApiCRUD;
 import ApiRest.Service.ServiceGetFullProjectApiCRUD;
 import service.DatabaseManager;
+import ApiRest.Service.TeamAllocationApi;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -47,6 +48,7 @@ public class Main {
         StackApiCRUD.setupEndpoints(app);
         TeamApiCRUD.setupEndpoints(app);
         ServiceGetFullProjectApiCRUD.setupEndpoints(app);
+        TeamAllocationApi.setupEndpoints(app);
         apiRest.setupEndpoints();
     }
 }

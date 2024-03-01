@@ -20,7 +20,7 @@ public class TeamAllocationService {
     private static final int MIN_TEAM_SIZE_FOR_EXPERT = 5;
     private static final int MINIMUM_DAYS_BETWEEN_TEAM_CHANGE = 180;
 
-    public static List<Team> allocateTeamForProject(int projectId) {
+    public static List<Developer> allocateTeamForProject(int projectId) {
         List<Team> teams = TeamController.getAllTeams();
         List<Developer> allDevelopers = DevelopersController.getAllDevelopers();
         Project project = ProjectController.getProjectById(projectId);
@@ -29,7 +29,7 @@ public class TeamAllocationService {
 
         List<Developer> availableDevelopers = getAvailableDevelopers(allDevelopers, teams, projectTimeSlots);
 
-        return null;
+        return availableDevelopers;
     }
 
     public static List<Developer> getAvailableDevelopers(List<Developer> allDevelopers, List<Team> allTeams, TimeSlot desiredTimeSlot) {
