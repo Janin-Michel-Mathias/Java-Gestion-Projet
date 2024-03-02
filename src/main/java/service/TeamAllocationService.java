@@ -3,11 +3,9 @@ package service;
 import controller.ProjectController;
 import controller.TeamController;
 import controller.DevelopersController;
+import controller.StackController;
 
-import modeles.Developer;
-import modeles.Project;
-import modeles.Team;
-import modeles.TimeSlot;
+import modeles.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,8 +26,9 @@ public class TeamAllocationService {
         TimeSlot projectTimeSlots = new TimeSlot(project.getStartDate(), project.getEndDate());
 
         List<Developer> availableDevelopers = getAvailableDevelopers(allDevelopers, teams, projectTimeSlots);
+        List<Developer> filteredDevelopers = filterDevelopersBySkill(availableDevelopers, StackController.getStackByNameProject(project.getName()));
 
-        return availableDevelopers;
+        return filteredDevelopers;
     }
 
     public static List<Developer> getAvailableDevelopers(List<Developer> allDevelopers, List<Team> allTeams, TimeSlot desiredTimeSlot) {
@@ -97,5 +96,35 @@ public class TeamAllocationService {
 
         // Return true if any of the conditions is true
         return isStartDateWithinProject || isEndDateWithinProject || isStartDateExactProject || isEndDateExactProject;
+    }
+
+    public static List<Developer> filterDevelopersBySkill(List<Developer> developers, List<SkillStacks> projectStack) {
+        List<Developer> filteredDevelopers = new ArrayList<>();
+
+        for (Developer developer : developers) {
+            if (hasSkillInProjectStack(developer, projectStack)) {
+                filteredDevelopers.add(developer);
+            }
+        }
+
+        return filteredDevelopers;
+    }
+
+    private static boolean hasSkillInProjectStack(Developer developer, List<SkillStacks> projectStack) {
+        for (SkillStacks skillStack : projectStack) {
+            if (developerHasSkill(developer, skillStack.getSkillName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean developerHasSkill(Developer developer, String skillName) {
+        for (SkillExperience skillExperience : developer.getSkills()) {
+            if (skillExperience.getSkill().equals(skillName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

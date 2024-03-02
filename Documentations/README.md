@@ -24,4 +24,6 @@ Tout les endpoints sont configuré avec leurs controllers respectifs
 Pour les fonctionnalités avancés de l'application, nous pouvons récupérer un projet avec toutes les informations le concernant,
 sa stack ainsi que les membres de son équipe.
 
-Nous pouvons également récupérer les develeppeurs disponibles pour un projet en particulier, en fonction des dates du projet
+Nous pouvons également récupérer les develeppeurs disponibles pour un projet en particulier, en fonction des dates du projet ainsi que des compétences requises.
+
+Avec ses developpeurs, il faudrait les affecters à une team, avec les conditions de création de team. Chose que nous n'avons pas pu faire.
